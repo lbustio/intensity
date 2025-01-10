@@ -191,4 +191,8 @@ Icon?
 *.swo
 *.directory
 
+# Custom special folders
+__Trash__/
+results/
+
 # End of .gitignore
