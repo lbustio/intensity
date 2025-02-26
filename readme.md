@@ -21,7 +21,7 @@ lbustio-intensity/
 
 ## Objectives
 
-The main objective of the project is to detect the intensity of the principles of persuasion within phishing messages. These principles, as identified by Ana Ferreira and Lázaro Bustio-Martínez, include:
+The main objective of the project is to detect the intensity of the principles of persuasion within phishing messages. These principles, as identified by Ana Ferreira [1] and Lázaro Bustio-Martínez [2], include:
 
 - **Authority**: Use of authority figures or authoritative instructions.
 - **Urgency**: Creation of a sense of urgency or pressure for the recipient to act quickly.
@@ -92,3 +92,9 @@ Be sure to install Microsoft C++ Build Tools by following the instructions provi
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Refrerences
+
+1. **Ferreira, A., & Teles, S.** (2019). Persuasion: How phishing emails can influence users and bypass security measures. International Journal of Human-Computer Studies, 125, 19-31. https://doi.org/10.1016/j.ijhcs.2018.12.004
+
+2. **Bustio-Martínez, L., Herrera-Semenets, V., García-Mendoza, J. L., Álvarez-Carmona, M. Á., González-Ordiano, J. Á., Zúñiga-Morales, L., Quiróz-Ibarra, J. E., Santander-Molina, P. A., & van den Berg, J.** (2024). Uncovering phishing attacks using principles of persuasion analysis. Journal of Network and Computer Applications, 230, 103964. https://doi.org/10.1016/j.jnca.2024.103964
