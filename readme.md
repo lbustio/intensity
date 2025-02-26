@@ -1,6 +1,6 @@
 # Semi-Supervised Analysis of Principles of Persuasion Intensity in Phishing Messages
 
-![Automatic Analysis of Persuasion Principles in Phishing Messages](res\banner.png)
+![Automatic Analysis of Persuasion Principles in Phishing Messages](resources/banner.png)
 
 This project aims to propose a semi-supervised method for detecting the intensity of various principles of persuasion in phishing messages (see [this](https://link.springer.com/chapter/10.1007/978-3-031-49552-6_14) and [this](https://www.sciencedirect.com/science/article/abs/pii/S1084804524001413)). The goal is to categorize and evaluate the messages efficiently using Natural Language Processing (NLP) techniques and machine learning. Clustering will be used to automatically determine the intensity levels of the principles of persuasion, and regression will be employed to predict the intensity of these principles in unknown messages based on the found intensities. This is an ongoing project, and its development may vary.
 

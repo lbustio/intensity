@@ -194,5 +194,6 @@ Icon?
 # Custom special folders
 __Trash__/
 results/
+libs/
 
 # End of .gitignore
