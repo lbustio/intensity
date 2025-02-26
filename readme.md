@@ -4,9 +4,25 @@
 
 This project aims to propose a semi-supervised method for detecting the intensity of various principles of persuasion in phishing messages (see [this](https://link.springer.com/chapter/10.1007/978-3-031-49552-6_14) and [this](https://www.sciencedirect.com/science/article/abs/pii/S1084804524001413)). The goal is to categorize and evaluate the messages efficiently using Natural Language Processing (NLP) techniques and machine learning. Clustering will be used to automatically determine the intensity levels of the principles of persuasion, and regression will be employed to predict the intensity of these principles in unknown messages based on the found intensities. This is an ongoing project, and its development may vary.
 
+## Project Structure
+
+```bash
+lbustio-intensity/
+├── readme.md                # This file
+├── intensity.code-workspace  # VS Code workspace
+├── intensity.ipynb           # Notebook with analysis and experiments
+├── requirements.txt          # Project dependencies
+├── data/                     # Phishing dataset
+│   ├── pop_dataset_Full(Tiltan).csv
+│   └── pop_dataset_Full(Tiltan).xlsx
+└── resources/                # Additional resources
+```
+
+
 ## Objectives
 
 The main objective of the project is to detect the intensity of the principles of persuasion within phishing messages. These principles, as identified by Ana Ferreira and Lázaro Bustio-Martínez, include:
+
 - **Authority**: Use of authority figures or authoritative instructions.
 - **Urgency**: Creation of a sense of urgency or pressure for the recipient to act quickly.
 - **Reciprocity**: Appeal to an implied obligation to respond or act in favor of the sender.
