@@ -1,8 +1,29 @@
 {
 	"folders": [
-		{
-			"path": "."
-		}
+	  {
+		"path": "."
+	  }
 	],
-	"settings": {}
-}
+	"settings": {
+	  "python.pythonPath": "./venv/bin/python",  // Ajusta según la ubicación de tu entorno virtual
+	  "python.linting.enabled": true,            // Habilita el linting de Python (como Pylint, Flake8, etc.)
+	  "python.linting.pylintEnabled": true,      // Usa pylint para el linting
+	  "python.linting.flake8Enabled": true,      // Si prefieres flake8 en lugar de pylint
+	  "python.formatting.autopep8Path": "./venv/bin/autopep8",  // Asegúrate de que el formateador sea de tu entorno virtual
+	  "python.formatting.autopep8Args": ["--max-line-length=80"], // Configura el máximo de caracteres por línea
+	  "python.testing.pytestEnabled": true,      // Habilita pytest para las pruebas
+	  "python.testing.pytestArgs": [
+		"tests"                                  // Configura las pruebas a ejecutarse desde la carpeta "tests"
+	  ],
+	  "files.exclude": {
+		"**/__pycache__": true,  // Excluye la carpeta de caché de Python de la vista del editor
+		"**/*.pyc": true         // Excluye archivos pyc
+	  },
+	  "editor.formatOnSave": true, // Formatea el código automáticamente al guardar
+	  "editor.tabSize": 4,         // Configura el tamaño de las tabulaciones a 4 espacios
+	  "editor.insertSpaces": true, // Usa espacios en lugar de tabulaciones
+	  "files.autoSave": "afterDelay", // Guarda archivos automáticamente después de un breve retraso
+	  "files.autoSaveDelay": 1000 // El retraso de guardado automático de 1 segundo
+	}
+  }
+  
