@@ -33,7 +33,7 @@ class DataRepresentation:
             raise
         
         # Instantiate the DataHandler for file operations
-        self.data_manager = FileManager(self.logger)
+        self.file_manager = FileManager(self.logger)
 
     def get_embeddings(self, texts):
         """
@@ -88,11 +88,11 @@ class DataRepresentation:
         pop_data_df = data.loc[data[pop] == 1, ['id', 'path', 'hash', 'subject', 'txt']]
 
         # Check if the embeddings file for the selected principle already exists using DataHandler
-        if os.path.isfile(os.path.join(RESULT_FOLDER, PRINCIPLE_FOLDER, file_name)):
+        if os.path.isfile(os.path.join(PRINCIPLE_FOLDER, file_name)):
             self.logger.info(f"Embeddings for '{pop}' already exist. Loading the embeddings...")
             try:
                 # Load the existing embeddings using DataHandler
-                embed_df = self.data_handler.read_csv(os.path.join(RESULT_FOLDER, PRINCIPLE_FOLDER, file_name))
+                embed_df = self.file_manager.load(os.path.join(PRINCIPLE_FOLDER, file_name))
                 self.logger.info(f"Embeddings loaded successfully for '{pop}'.")
                 
                 # Rename columns to 'col_#' format if necessary
@@ -111,10 +111,5 @@ class DataRepresentation:
             embed_df.columns = [f"col_{i}" for i in range(embed_df.shape[1])]
             embed_df["id"] = pop_data_df["id"].values
             embed_df["path"] = pop_data_df["path"].values
-
-            # Save the newly generated embeddings to a CSV file using DataHandler
-            file_path = os.path.join(PRINCIPLE_FOLDER, file_name)
-            self.data_manager.save(embed_df, file_path)
-            self.logger.info(f"Embeddings saved successfully for '{pop}' in '{file_path}'.")
 
         return embed_df

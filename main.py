@@ -11,18 +11,23 @@ from prettytable import PrettyTable  # For displaying information in a nice tabl
 import os  # For interacting with the file system
 
 # Custom utilities for logging, package installation, and data management
-from src.utils.logger import LoggerSingleton  # Custom LoggerSingleton class for logging messages
-from src.utils.package_installer import PackageInstaller  # Custom PackageInstaller class for installing packages
-from src.data.folder_manager import FolderManager  # Importing FolderManager for folder operations
-from src.data.file_manager import FileManager  # Importing FileManager for file operations
-from src.data.data_respresentation import DataRepresentation  # Importing DataRepresentation for text embeddings
 from src.utils.constants import (
     DATA_FOLDER,
     PRINCIPLE_FOLDER,
     PROCESSED_DATA_FOLDER, 
     POPS,
-    POP
+    POP,
+    SCALE_DATA
 )  # Importing constants for data folder paths and POPS columns
+from src.utils.logger import LoggerSingleton  # Custom LoggerSingleton class for logging messages
+from src.utils.package_installer import PackageInstaller  # Custom PackageInstaller class for installing packages
+from src.data.folder_manager import FolderManager  # Importing FolderManager for folder operations
+from src.data.file_manager import FileManager  # Importing FileManager for file operations
+from src.data.data_respresentation import DataRepresentation  # Importing DataRepresentation for text embeddings
+from src.features.dimensionality_reduction import DimensionalityReduction  # Importing DimensionalityReduction for reducing dimensionality
+from src.visualizations.data_visualizer import DataVisualizer  # Importing DataVisualizer for data visualization
+from src.models.clustering import ClusteringAlgorithms  # Importing ClusteringAlgorithms for clustering algorithms
+
 
 # ================================
 # GLOBAL VARIABLES (SINGLETON INSTANCES)
@@ -45,6 +50,7 @@ def splash():
     print("  Research Project: Persuasion Intensity in Phishing Messages")
     print("  Developed by: Lázaro Bustio-Martínez and Contributors")
     print("  Version: 1.0.0")
+    print("  Developed for: Python 3.12.8")
     print("---------------------------------------------------------------")
     print("  This project analyzes the persuasion intensity in phishing messages")
     print("  using semi-supervised learning techniques.")
@@ -216,7 +222,7 @@ def create_embeddings(data, pop_column):
 
     # Get or create embeddings for the POP persuasion principle
     embedding_df = data_rep.load_or_create_embeddings(data, pop_column)
-
+    
     # Return the resulting embeddings DataFrame
     return embedding_df
      
@@ -241,8 +247,45 @@ def main():
     ## Step 2: Embedding Creation
     ## 
     embeddings_df = create_embeddings(data, POP)
-    print(embeddings_df.head())
     
+    # Save embeddings to a CSV file
+    file_name = f"embeddings_{POP}.csv"
+    file_path = os.path.join(PRINCIPLE_FOLDER, file_name)
+    file_manager.save(embeddings_df, file_path)
+    
+    # Visualize the embeddings DataFrame in a scatter plot. First, it is needed to reduce the dimensionality of the embeddings.
+    # Represent the embeddings in 2D using t-SNE
+    dim_redux_method = 'PCA'
+    n_components = 2
+    embed_df = embeddings_df.drop(columns=["id", "path"])
+    dim_redux = DimensionalityReduction(method=dim_redux_method, n_components=n_components, logger=logger)
+    embedding_reduced_2D = dim_redux.fit_transform(embed_df)
+    
+    file_name = f"{dim_redux_method}_embeddings_{POP}_2d.png"
+    visualizer_2D = DataVisualizer(embedding_reduced_2D, logger=logger)
+    visualizer_2D.scatter_plot(x=embedding_reduced_2D.columns[0], 
+                               y=embedding_reduced_2D.columns[1], 
+                               title=f"2D Embeddings for '{POP}' using {dim_redux_method}", 
+                               save_to=os.path.join(PRINCIPLE_FOLDER, file_name))
+    
+    ##
+    ## Step 3: Calculates the optimum numbre of clusters
+    ##
+    clustering_algorithms = ClusteringAlgorithms(max_k=15, logger=logger, scaling_data=SCALE_DATA)  # Controla si se escala
+
+    # Calcular el número óptimo de clusters para cada algoritmo
+    optimal_clusters = clustering_algorithms.run_clustering(embed_df)
+
+    # Log de resultados
+    logger.info("Optimal clustering results:")
+    for algorithm, result in optimal_clusters.items():
+        logger.info(f"Algorithm: {algorithm}, Optimal k: {result['optimal_k']}, Parameters: {result['params']}")
+
+    # Guardar los resultados en un CSV
+    optimal_clusters_df = pd.DataFrame.from_dict(optimal_clusters, orient='index')
+    optimal_clusters_df.to_csv(os.path.join(PRINCIPLE_FOLDER, f"optimal_clusters_{POP}.csv"))
+    
+        
 
 # ================================
 # PROGRAM EXECUTION
